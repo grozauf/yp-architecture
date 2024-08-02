@@ -13,6 +13,9 @@ import User from '../models/user';
 
 const login = (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
+
+  res.set('Access-Control-Allow-Origin', '*');
+
   return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET);
@@ -34,6 +37,8 @@ const createUser = (req: Request, res: Response, next: NextFunction) => {
     name, about, avatar, password, email,
   } = req.body;
 
+  res.set('Access-Control-Allow-Origin', '*');
+
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
       name, about, avatar, email, password: hash,
@@ -51,12 +56,17 @@ const createUser = (req: Request, res: Response, next: NextFunction) => {
 };
 
 const getUsers = (req: Request, res: Response, next: NextFunction) => {
+
+  res.set('Access-Control-Allow-Origin', '*');
+
   User.find({})
     .then((users) => res.send({ data: users }))
     .catch(next);
 };
 
 const getUserData = (id: string, res: Response, next: NextFunction) => {
+  res.set('Access-Control-Allow-Origin', '*');
+
   User.findById(id)
     .orFail(() => new NotFoundError('Пользователь по заданному id отсутствует в базе'))
     .then((users) => res.send({ data: users }))
@@ -64,15 +74,21 @@ const getUserData = (id: string, res: Response, next: NextFunction) => {
 };
 
 const getUser = (req: Request, res: Response, next: NextFunction) => {
+  res.set('Access-Control-Allow-Origin', '*');
+
   getUserData(req.params.id, res, next);
 };
 
 const getCurrentUser = (req: Request, res: Response, next: NextFunction) => {
+  res.set('Access-Control-Allow-Origin', '*');
+
   getUserData(req.user._id, res, next);
 };
 
 const updateUserData = (req: Request, res: Response, next: NextFunction) => {
   const { user: { _id }, body } = req;
+  res.set('Access-Control-Allow-Origin', '*');
+  
   User.findByIdAndUpdate(_id, body, { new: true, runValidators: true })
     .orFail(() => new NotFoundError('Пользователь по заданному id отсутствует в базе'))
     .then((user) => res.send({ data: user }))

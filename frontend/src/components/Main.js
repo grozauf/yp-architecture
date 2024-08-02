@@ -20,7 +20,7 @@ function Main({ cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onC
       </section>
       <section className="places page__section">
         <ul className="places__list">
-          {cards.map((card) => (
+          {cards.data.map((card) => (
             <Card
               key={card._id}
               card={card}

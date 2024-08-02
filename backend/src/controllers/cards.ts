@@ -8,6 +8,8 @@ import NotFoundError from '../errors/not-found-error';
 import Card from '../models/card';
 
 const getCards = (req: Request, res: Response, next: NextFunction) => {
+  res.set('Access-Control-Allow-Origin', '*');
+
   Card.find({})
     .then((cards) => res.send({ data: cards }))
     .catch(next);
@@ -16,6 +18,8 @@ const getCards = (req: Request, res: Response, next: NextFunction) => {
 const createCard = (req: Request, res: Response, next: NextFunction) => {
   const owner = req.user._id;
   const { name, link } = req.body;
+  res.set('Access-Control-Allow-Origin', '*');
+
   Card.create({ name, link, owner })
     .then((card) => res.status(201).send({ data: card }))
     .catch((err) => {
@@ -29,6 +33,8 @@ const createCard = (req: Request, res: Response, next: NextFunction) => {
 
 const deleteCard = (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
+  res.set('Access-Control-Allow-Origin', '*');
+
   Card.findById(id)
     .orFail(() => new NotFoundError('Нет карточки по заданному id'))
     .then((card) => {
@@ -44,6 +50,8 @@ const deleteCard = (req: Request, res: Response, next: NextFunction) => {
 
 const updateLike = (req: Request, res: Response, next: NextFunction, method: string) => {
   const { params: { id } } = req;
+  res.set('Access-Control-Allow-Origin', '*');
+  
   Card.findByIdAndUpdate(id, { [method]: { likes: req.user._id } }, { new: true })
     .orFail(() => new NotFoundError('Нет карточки по заданному id'))
     .then((card) => {
