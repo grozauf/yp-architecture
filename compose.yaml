@@ -74,3 +74,15 @@ services:
     depends_on:
       backend:
         condition: service_healthy
+
+  profile-microfrontend:
+    build:
+      context: frontend/profile-microfrontend
+      dockerfile: ../../Dockerfile.profile.microfrontend
+    ports:
+      - 3003:3003
+    environment:
+      NODE_OPTIONS: --openssl-legacy-provider
+    depends_on:
+      backend:
+        condition: service_healthy
