@@ -1,8 +1,6 @@
 import React from 'react';
 import SuccessIcon from '../images/success-icon.svg';
 import ErrorIcon from '../images/error-icon.svg';
-import '../blocks/popup/popup.css';
-import '../blocks/popup/_is-opened/popup_is-opened.css';
 
 function InfoTooltip({ isOpen, onClose, status }) {
   const icon = status === 'success' ? SuccessIcon : ErrorIcon
