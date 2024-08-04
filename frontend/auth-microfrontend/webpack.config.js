@@ -32,9 +32,23 @@ module.exports = {
                 use: ['style-loader', 'css-loader', 'sass-loader']
             },
             {
-                test: /\.(png|svg|jpg|jpeg|gif)$/,
-                use: ['file-loader']
+                test: /\.svg$/,
+                type: "asset/inline",
+                // Inline assets with the "inline" query parameter.
+                resourceQuery: /inline/,
             },
+            {oneOf: [
+                {
+                    test: /\.svg$/,
+                    type: "asset/inline",
+                    // ...
+                },
+                {
+                test: /\.(png|svg|jpg|jpeg|gif)$/,
+                type: 'asset/resource'
+                    // ...
+                },
+            ]},
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
                 use: ['file-loader']
