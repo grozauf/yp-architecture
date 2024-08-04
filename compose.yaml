@@ -57,6 +57,18 @@ services:
       dockerfile: ../Dockerfile.frontend
     ports:
       - 3000:3000
+    environment:
+      NODE_OPTIONS: --openssl-legacy-provider
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  auth-frontend:
+    build:
+      context: frontend/auth-microfrontend
+      dockerfile: ../../Dockerfile.auth.frontend
+    ports:
+      - 3002:3002
     depends_on:
       backend:
         condition: service_healthy
