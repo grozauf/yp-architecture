@@ -1,20 +1,15 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyPlugin = require("copy-webpack-plugin");
 const ModuleFederationPlugin = require('webpack').container.ModuleFederationPlugin;
 const path = require('path');
 
 module.exports = {
-    entry: './src/index.js',
     output: {
         publicPath: 'auto',
     },
     mode: 'development',
     devServer: {
+        port: 3003,
         contentBase: path.join(__dirname, 'public'),
-        port: 3000,
-    },
-    resolve: {
-        extensions: ['.jsx', '.js', '.json', '.css', '.scss', '.jpg', 'jpeg', 'png', 'svg', 'ico', 'json'],
     },
     module: {
         rules: [
@@ -24,7 +19,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-env', '@babel/preset-react']
+                        presets: ['@babel/preset-env', '@babel/preset-react'] // if you're using React
                     }
                 }
             },
@@ -48,31 +43,17 @@ module.exports = {
     },
     plugins: [
         new ModuleFederationPlugin({
-            name: 'host',
-            remotes: {
-                auth: 'auth@http://localhost:3002/remoteEntry.js',
-                profile: 'profile@http://localhost:3003/remoteEntry.js',
+            name: 'profile',
+            filename: 'remoteEntry.js',
+            exposes: {
+                './EditAvatarPopup': './src/components/EditAvatarPopup',
+                './EditProfilePopup': './src/components/EditProfilePopup'
             },
-            shared: { react: { singleton: true }, "react-dom": { singleton: true }, "react-router-dom": { singleton: true } },
-        }),
-        new HtmlWebpackPlugin({
-            template: './public/index.html',
-        }),
-        new CopyPlugin({
-            patterns: [
-                {
-                    from: "src/**/*.jpg",
-                    to: "[name][ext]",
-                },
-                {
-                    from: "public/**/*.png",
-                    to: "[name][ext]",
-                },
-                {
-                    from: "public/manifest.json",
-                    to: "[name][ext]",
-                },
-            ],
-        }),
+            shared: { 
+                "react": { singleton: true }, 
+                "react-dom": { singleton: true }, 
+                "react-router-dom": { singleton: true }
+            },
+        })
     ]
 };
