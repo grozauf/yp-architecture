@@ -3,17 +3,16 @@ import { Route, useHistory, Switch } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
-import ImagePopup from "./ImagePopup";
-import api from "../utils/api";
+import ImagePopup from "cards/ImagePopup";
+import AddPlacePopup from "cards/AddPlacePopup";
+import cardsApi from "cards/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "profile/EditProfilePopup";
 import EditAvatarPopup from "profile/EditAvatarPopup";
-import AddPlacePopup from "./AddPlacePopup";
 import Login from "auth/Login";
 import Register from "auth/Register";
 import InfoTooltip from "auth/InfoTooltip";
-import * as auth from "auth/api";
+import * as authApi from "auth/api";
 import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
@@ -39,7 +38,7 @@ function App() {
 
   // Запрос к API за информацией о пользователе и массиве карточек выполняется единожды, при монтировании.
   React.useEffect(() => {
-    api
+    cardsApi
       .getAppInfo()
       .then(([cardData, userData]) => {
         setCurrentUser(userData);
@@ -52,7 +51,7 @@ function App() {
   React.useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
-      auth
+      authApi
         .checkToken(token)
         .then((res) => {
           setEmail(res.data.email);
@@ -91,7 +90,7 @@ function App() {
   }
 
   function handleUpdateUser(userUpdate) {
-    api
+    cardsApi
       .setUserInfo(userUpdate)
       .then((newUserData) => {
         setCurrentUser(newUserData);
@@ -101,7 +100,7 @@ function App() {
   }
 
   function handleUpdateAvatar(avatarUpdate) {
-    api
+    cardsApi
       .setUserAvatar(avatarUpdate)
       .then((newUserData) => {
         setCurrentUser(newUserData);
@@ -112,7 +111,7 @@ function App() {
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
-    api
+    cardsApi
       .changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
         setCards((cards) =>
@@ -123,7 +122,7 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    api
+    cardsApi
       .removeCard(card._id)
       .then(() => {
         setCards((cards) => cards.filter((c) => c._id !== card._id));
@@ -132,7 +131,7 @@ function App() {
   }
 
   function handleAddPlaceSubmit(newCard) {
-    api
+    cardsApi
       .addCard(newCard)
       .then((newCardFull) => {
         setCards([newCardFull, ...cards]);
@@ -142,7 +141,7 @@ function App() {
   }
 
   function onRegister({ email, password }) {
-    auth
+    authApi
       .register(email, password)
       .then((res) => {
         setTooltipStatus("success");
@@ -156,7 +155,7 @@ function App() {
   }
 
   function onLogin({ email, password }) {
-    auth
+    authApi
       .login(email, password)
       .then((res) => {
         setIsLoggedIn(true);
@@ -210,13 +209,13 @@ function App() {
           isOpen={isEditProfilePopupOpen}
           onUpdateUser={handleUpdateUser}
           onClose={closeAllPopups}
+          currentUser={currentUser}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onAddPlace={handleAddPlaceSubmit}
           onClose={closeAllPopups}
         />
-        <PopupWithForm title="Вы уверены?" name="remove-card" buttonText="Да" />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onUpdateAvatar={handleUpdateAvatar}

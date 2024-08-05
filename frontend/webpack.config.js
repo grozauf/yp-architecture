@@ -37,7 +37,7 @@ module.exports = {
                 use: ['style-loader', 'css-loader', 'sass-loader']
             },
             {
-                test: /\.(png|jpe?g|gif|svg)$/,
+                test: /\.(png|jpe?g|gif|svg|ico)$/,
                 type: 'asset/resource'
             },
             {
@@ -52,8 +52,13 @@ module.exports = {
             remotes: {
                 auth: 'auth@http://localhost:3002/remoteEntry.js',
                 profile: 'profile@http://localhost:3003/remoteEntry.js',
+                cards: 'cards@http://localhost:3004/remoteEntry.js',
             },
-            shared: { react: { singleton: true }, "react-dom": { singleton: true }, "react-router-dom": { singleton: true } },
+            shared: { 
+                react: { singleton: true }, 
+                "react-dom": { singleton: true }, 
+                "react-router-dom": { singleton: true } 
+            },
         }),
         new HtmlWebpackPlugin({
             template: './public/index.html',
@@ -70,6 +75,10 @@ module.exports = {
                 },
                 {
                     from: "public/manifest.json",
+                    to: "[name][ext]",
+                },
+                {
+                    from: "public/favicon.ico",
                     to: "[name][ext]",
                 },
             ],
