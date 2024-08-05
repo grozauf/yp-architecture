@@ -86,3 +86,15 @@ services:
     depends_on:
       backend:
         condition: service_healthy
+
+  cards-microfrontend:
+    build:
+      context: frontend/microfrontend/cards
+      dockerfile: ../../../Dockerfile.cards.microfrontend
+    ports:
+      - 3004:3004
+    environment:
+      NODE_OPTIONS: --openssl-legacy-provider
+    depends_on:
+      backend:
+        condition: service_healthy
