@@ -1,7 +1,7 @@
 {
-  "name": "auth-microfrontend",
+  "name": "profile-microfrontend",
   "version": "1.0.0",
-  "description": "User auth functionality",
+  "description": "User profile functionality",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.9.10",
@@ -13,11 +13,9 @@
     "prop-types": "^15.8.1"
   },
   "scripts": {
-    "start:auth": "webpack serve",
+    "start:profile": "webpack serve",
     "start": "webpack serve --mode development",
-    "build": "webpack serve --mode production",
-    "serve": "serve dist -p 3002",
-    "clean": "rm -rf dist"
+    "build": "webpack serve --mode production"
   },
   "author": "Pavel Lobanov <grozauf@yandex.ru>",
   "devDependencies": {

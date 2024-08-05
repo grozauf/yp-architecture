@@ -48,7 +48,8 @@ module.exports = {
             exposes: {
                 './Register': './src/components/Register',
                 './Login': './src/components/Login',
-                './InfoTooltip': './src/components/InfoTooltip'
+                './InfoTooltip': './src/components/InfoTooltip',
+                './api': './src/api/auth',
             },
             shared: { 
                 "react": { singleton: true }, 

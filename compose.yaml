@@ -65,8 +65,8 @@ services:
 
   auth-microfrontend:
     build:
-      context: frontend/auth-microfrontend
-      dockerfile: ../../Dockerfile.auth.microfrontend
+      context: frontend/microfrontend/auth
+      dockerfile: ../../../Dockerfile.auth.microfrontend
     ports:
       - 3002:3002
     environment:
@@ -77,8 +77,8 @@ services:
 
   profile-microfrontend:
     build:
-      context: frontend/profile-microfrontend
-      dockerfile: ../../Dockerfile.profile.microfrontend
+      context: frontend/microfrontend/profile
+      dockerfile: ../../../Dockerfile.profile.microfrontend
     ports:
       - 3003:3003
     environment:

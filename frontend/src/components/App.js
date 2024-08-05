@@ -13,8 +13,8 @@ import AddPlacePopup from "./AddPlacePopup";
 import Login from "auth/Login";
 import Register from "auth/Register";
 import InfoTooltip from "auth/InfoTooltip";
+import * as auth from "auth/api";
 import ProtectedRoute from "./ProtectedRoute";
-import * as auth from "../utils/auth.js";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =

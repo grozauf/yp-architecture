@@ -4,7 +4,7 @@ function PopupWithForm({
   title,
   name,
   isOpen,
-  buttonText = 'Сохранить',
+  buttonText = 'Обновить',
   onSubmit,
   onClose,
   children,
