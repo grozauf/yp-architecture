@@ -39,3 +39,11 @@
 - npm run start (вызывается каждый раз при запуске микрофронта)
 
 после этого фронт будет доступен по адресу http://localhost:3000 и всё будет работать
+
+# Задание №2
+
+Ссылка на Google Docs: https://drive.google.com/drive/folders/0B1y60IRhy-kqfnVqUExySVJjMmtYbm1GQTFRc2NidDh3ZW53MHdoT2p6MFFjREIxdkpUTms?resourcekey=0-DYhBxm6xxNo3h43L_1_WAg
+
+Также приложил исходник в корне проекта: praktikum_arch_sprint_1.xml.drawio
+
+Там есть описание проекта.
