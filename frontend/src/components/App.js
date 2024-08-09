@@ -1,19 +1,33 @@
 import React from "react";
+import { lazy } from 'react';
 import { Route, useHistory, Switch } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import ImagePopup from "cards/ImagePopup";
-import AddPlacePopup from "cards/AddPlacePopup";
-import cardsApi from "cards/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import EditProfilePopup from "profile/EditProfilePopup";
-import EditAvatarPopup from "profile/EditAvatarPopup";
-import Login from "auth/Login";
-import Register from "auth/Register";
-import InfoTooltip from "auth/InfoTooltip";
-import * as authApi from "auth/api";
 import ProtectedRoute from "./ProtectedRoute";
+import ImagePopup from 'cards/ImagePopup';
+import AddPlacePopup from 'cards/AddPlacePopup';
+import cardsApi from 'cards/api';
+import EditProfilePopup from 'profile/EditProfilePopup';
+import EditAvatarPopup from 'profile/EditAvatarPopup';
+import Login from 'auth/Login';
+import Register from 'auth/Register';
+import InfoTooltip from 'auth/InfoTooltip';
+import * as authApi from 'auth/api';
+
+
+// const ImagePopup = lazy(() => import('cards/ImagePopup').catch(() => { return { default: () => <div className='error'>Component is not available!</div> }; }) );
+// const AddPlacePopup = lazy(() => import('cards/AddPlacePopup').catch(() => { return { default: () => <div className='error'>Component is not available!</div> }; }) );
+// const cardsApi = lazy(() => import('./CardsApi').catch(() => { return { default: () => <div className='error'>Component is not available!</div> }; }) );
+
+// const EditProfilePopup = lazy(() => import('profile/EditProfilePopup').catch(() => { return { default: () => <div className='error'>Component is not available!</div> }; }) );
+// const EditAvatarPopup = lazy(() => import('profile/EditAvatarPopup').catch(() => { return { default: () => <div className='error'>Component is not available!</div> }; }) );
+
+// const Login = lazy(() => import('auth/Login').catch(() => { return { default: () => <div className='error'>Component is not available!</div> }; }) );
+// const Register = lazy(() => import('auth/Register').catch(() => { return { default: () => <div className='error'>Component is not available!</div> }; }) );
+// const InfoTooltip = lazy(() => import('auth/InfoTooltip').catch(() => { return { default: () => <div className='error'>Component is not available!</div> }; }) );
+// const authApi = lazy(() => import('./AuthApi').catch(() => { return { default: () => <div className='error'>Component is not available!</div> }; }) );
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =

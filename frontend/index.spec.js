@@ -7,7 +7,7 @@ describe('Микрофронтенд директории', () => {
   test('Проверка на наличие директорий, которые в названии имеют слово microfrontend', () => {
     const dirs = fs.readdirSync('./', { withFileTypes: true });
     const hasDirs = dirs.some((item) =>
-      item.isDirectory() && item.name.includes('auth-microfrontend')
+      item.isDirectory() && item.name.includes('microfrontend')
     );
 
     expect(hasDirs).toBe(true);

@@ -47,9 +47,13 @@ services:
       context: frontend
       dockerfile: ../Dockerfile.frontend
     command: yarn test:microfrontend
+    network_mode: host
     restart: 'no'
     environment:
           CI: true
+    depends_on:
+      frontend:
+        condition: service_healthy
 
   frontend:
     build:
@@ -62,6 +66,18 @@ services:
     depends_on:
       backend:
         condition: service_healthy
+      auth-microfrontend:
+        condition: service_healthy
+      profile-microfrontend:
+        condition: service_healthy
+      cards-microfrontend:
+        condition: service_healthy
+    healthcheck:
+      interval: 10s
+      timeout: 2s 
+      start_period: 15s 
+      retries: 5 
+      test: node healthcheck.js
 
   auth-microfrontend:
     build:
@@ -74,6 +90,12 @@ services:
     depends_on:
       backend:
         condition: service_healthy
+    healthcheck:
+      interval: 10s
+      timeout: 2s 
+      start_period: 15s 
+      retries: 5 
+      test: node healthcheck.js
 
   profile-microfrontend:
     build:
@@ -86,6 +108,12 @@ services:
     depends_on:
       backend:
         condition: service_healthy
+    healthcheck:
+      interval: 10s
+      timeout: 2s 
+      start_period: 15s 
+      retries: 5 
+      test: node healthcheck.js
 
   cards-microfrontend:
     build:
@@ -98,3 +126,9 @@ services:
     depends_on:
       backend:
         condition: service_healthy
+    healthcheck:
+      interval: 10s
+      timeout: 2s 
+      start_period: 15s 
+      retries: 5 
+      test: node healthcheck.js

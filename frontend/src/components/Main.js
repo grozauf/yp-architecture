@@ -1,6 +1,10 @@
 import React from 'react';
-import Card from 'cards/Card';
+import { lazy } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import Card from 'cards/Card';
+
+
+// const Card = lazy(() => import('cards/Card').catch(() => { return { default: () => <div className='error'>Component is not available!</div> }; }) );
 
 function Main({ cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = React.useContext(CurrentUserContext);

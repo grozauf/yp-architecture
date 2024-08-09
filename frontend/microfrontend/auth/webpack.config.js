@@ -10,6 +10,7 @@ module.exports = {
     devServer: {
         port: 3002,
         contentBase: path.join(__dirname, 'public'),
+        host: '0.0.0.0',
     },
     module: {
         rules: [
