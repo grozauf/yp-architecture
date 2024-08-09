@@ -1,20 +1,33 @@
 import React from "react";
+import { lazy } from 'react';
 import { Route, useHistory, Switch } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
-import ImagePopup from "./ImagePopup";
-import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import EditProfilePopup from "./EditProfilePopup";
-import EditAvatarPopup from "./EditAvatarPopup";
-import AddPlacePopup from "./AddPlacePopup";
-import Register from "./Register";
-import Login from "./Login";
-import InfoTooltip from "./InfoTooltip";
 import ProtectedRoute from "./ProtectedRoute";
-import * as auth from "../utils/auth.js";
+import ImagePopup from 'cards/ImagePopup';
+import AddPlacePopup from 'cards/AddPlacePopup';
+import cardsApi from 'cards/api';
+import EditProfilePopup from 'profile/EditProfilePopup';
+import EditAvatarPopup from 'profile/EditAvatarPopup';
+import Login from 'auth/Login';
+import Register from 'auth/Register';
+import InfoTooltip from 'auth/InfoTooltip';
+import * as authApi from 'auth/api';
+
+
+// const ImagePopup = lazy(() => import('cards/ImagePopup').catch(() => { return { default: () => <div className='error'>Component is not available!</div> }; }) );
+// const AddPlacePopup = lazy(() => import('cards/AddPlacePopup').catch(() => { return { default: () => <div className='error'>Component is not available!</div> }; }) );
+// const cardsApi = lazy(() => import('./CardsApi').catch(() => { return { default: () => <div className='error'>Component is not available!</div> }; }) );
+
+// const EditProfilePopup = lazy(() => import('profile/EditProfilePopup').catch(() => { return { default: () => <div className='error'>Component is not available!</div> }; }) );
+// const EditAvatarPopup = lazy(() => import('profile/EditAvatarPopup').catch(() => { return { default: () => <div className='error'>Component is not available!</div> }; }) );
+
+// const Login = lazy(() => import('auth/Login').catch(() => { return { default: () => <div className='error'>Component is not available!</div> }; }) );
+// const Register = lazy(() => import('auth/Register').catch(() => { return { default: () => <div className='error'>Component is not available!</div> }; }) );
+// const InfoTooltip = lazy(() => import('auth/InfoTooltip').catch(() => { return { default: () => <div className='error'>Component is not available!</div> }; }) );
+// const authApi = lazy(() => import('./AuthApi').catch(() => { return { default: () => <div className='error'>Component is not available!</div> }; }) );
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -39,7 +52,7 @@ function App() {
 
   // Запрос к API за информацией о пользователе и массиве карточек выполняется единожды, при монтировании.
   React.useEffect(() => {
-    api
+    cardsApi
       .getAppInfo()
       .then(([cardData, userData]) => {
         setCurrentUser(userData);
@@ -52,7 +65,7 @@ function App() {
   React.useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
-      auth
+      authApi
         .checkToken(token)
         .then((res) => {
           setEmail(res.data.email);
@@ -91,7 +104,7 @@ function App() {
   }
 
   function handleUpdateUser(userUpdate) {
-    api
+    cardsApi
       .setUserInfo(userUpdate)
       .then((newUserData) => {
         setCurrentUser(newUserData);
@@ -101,7 +114,7 @@ function App() {
   }
 
   function handleUpdateAvatar(avatarUpdate) {
-    api
+    cardsApi
       .setUserAvatar(avatarUpdate)
       .then((newUserData) => {
         setCurrentUser(newUserData);
@@ -112,7 +125,7 @@ function App() {
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
-    api
+    cardsApi
       .changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
         setCards((cards) =>
@@ -123,7 +136,7 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    api
+    cardsApi
       .removeCard(card._id)
       .then(() => {
         setCards((cards) => cards.filter((c) => c._id !== card._id));
@@ -132,7 +145,7 @@ function App() {
   }
 
   function handleAddPlaceSubmit(newCard) {
-    api
+    cardsApi
       .addCard(newCard)
       .then((newCardFull) => {
         setCards([newCardFull, ...cards]);
@@ -142,7 +155,7 @@ function App() {
   }
 
   function onRegister({ email, password }) {
-    auth
+    authApi
       .register(email, password)
       .then((res) => {
         setTooltipStatus("success");
@@ -156,7 +169,7 @@ function App() {
   }
 
   function onLogin({ email, password }) {
-    auth
+    authApi
       .login(email, password)
       .then((res) => {
         setIsLoggedIn(true);
@@ -210,13 +223,13 @@ function App() {
           isOpen={isEditProfilePopupOpen}
           onUpdateUser={handleUpdateUser}
           onClose={closeAllPopups}
+          currentUser={currentUser}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onAddPlace={handleAddPlaceSubmit}
           onClose={closeAllPopups}
         />
-        <PopupWithForm title="Вы уверены?" name="remove-card" buttonText="Да" />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onUpdateAvatar={handleUpdateAvatar}

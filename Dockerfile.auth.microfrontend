@@ -12,6 +12,6 @@ RUN npm i \
 
 COPY . .
 
-CMD [ "npm", "run", "start:host" ]
+CMD [ "npm", "run", "start:auth" ]
 
-EXPOSE 3000
+EXPOSE 3002
